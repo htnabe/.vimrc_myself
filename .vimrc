@@ -46,22 +46,9 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["~/vim-snippets/"]
 
 "" nerdtree
-let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:nerdtree_tabs_focus_on_files=1
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 30
-let NERDTreeShowHidden=1
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-nnoremap <Leader>dir :NERDTreeTabsToggle<CR>
-autocmd BufWritePre * :FixWhitespace
-augroup NERD
-    au!
-    autocmd VimEnter * NERDTree
-    autocmd VimEnter * wincmd p
-augroup ENDi
+" 他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd vimenter * NERDTree
 
 "" vimshell
 "" nnoremap <Leader>sh :VimShellPop<CR>
@@ -115,14 +102,6 @@ augroup vimrc-python
     autocmd FileType python setlocal
                 \ formatoptions+=croq softtabstop=4
                 \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-augroup END
-
-" template
-augroup templateGroup
-    autocmd!
-    autocmd BufNewFile *.html :0r ~/vim-template/t.html
-    autocmd BufNewFile *.cpp :0r ~/vim-template/t.cpp
-    autocmd BufNewFile *.py :0r ~/vim-template/t.py
 augroup END
 
 " base
